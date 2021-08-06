@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"radapp/src/api/v1/controllers"
+	"radapp/src/api/v1/middleware"
 	"radapp/src/api/v1/repositories"
 	"radapp/src/api/v1/routes"
 	"radapp/src/api/v1/services"
@@ -61,6 +62,7 @@ func init() {
 
 func main() {
 	r := gin.Default()
+	r.Use(gin.CustomRecovery(middleware.RecoverOfPanic))
 	serverPort := os.Getenv("SERVER_PORT")
 	routes.CreateProdutoRoutes(r, produtoController)
 	r.Run(serverPort) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
